@@ -25,12 +25,11 @@ const Home: NextPage = () => {
     );
     const movies = await data.json();
     setPopular(movies.results);
-    console.log(movies.results);
   };
 
   return (
-    <div className={styles.container}>
-      <div className="popular-movies">
+    <div className="app">
+      <div className={styles.popular_movies}>
         {popular
           ? popular.map((movie) => {
               return <Movie key={movie.id} movie={movie} />;
