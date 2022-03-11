@@ -3,17 +3,13 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Movie from "../components/Movie";
+import Filter from "../components/Filter";
+
+import { PopularProps } from "./Popular.interfaces";
 
 const Home: NextPage = () => {
-  interface popularProps {
-    popular: {
-      id: number;
-      backdrop_path: string;
-      genre_ids: Array<number>;
-      title: string;
-    }[];
-  }
-  const [popular, setPopular] = useState<popularProps["popular"]>([]);
+  const [popular, setPopular] = useState<PopularProps["popular"]>([]);
+  const [filtered, setFiltered] = useState<PopularProps["popular"]>([]);
 
   useEffect(() => {
     fetchPopular();
@@ -25,10 +21,12 @@ const Home: NextPage = () => {
     );
     const movies = await data.json();
     setPopular(movies.results);
+    setFiltered(movies.results);
   };
 
   return (
     <div className="app">
+      <Filter popular={popular} setFiltered={setFiltered} />
       <div className={styles.popular_movies}>
         {popular
           ? popular.map((movie) => {
