@@ -10,7 +10,7 @@ import { PopularProps } from "./Popular.interfaces";
 const Home: NextPage = () => {
   const [popular, setPopular] = useState<PopularProps["popular"]>([]);
   const [filtered, setFiltered] = useState<PopularProps["popular"]>([]);
-
+  const [activeGenre, setActiveGenre] = useState(0);
   useEffect(() => {
     fetchPopular();
   }, []);
@@ -23,13 +23,17 @@ const Home: NextPage = () => {
     setPopular(movies.results);
     setFiltered(movies.results);
   };
-
   return (
     <div className="app">
-      <Filter popular={popular} setFiltered={setFiltered} />
+      <Filter
+        popular={popular}
+        setFiltered={setFiltered}
+        activeGenre={activeGenre}
+        setActiveGenre={setActiveGenre}
+      />
       <div className={styles.popular_movies}>
-        {popular
-          ? popular.map((movie) => {
+        {filtered
+          ? filtered.map((movie) => {
               return <Movie key={movie.id} movie={movie} />;
             })
           : null}
